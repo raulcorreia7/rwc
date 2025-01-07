@@ -7,62 +7,36 @@ import (
 	"strings"
 )
 
-func CountBytes(file *os.File) int {
-	file.Seek(0, 0)
-	bytes, err := file.Stat()
+type CountType uint8
 
-	if err != nil {
-		err = fmt.Errorf("error counting bytes: %v", err)
-		fmt.Println(err)
+const (
+	Bytes CountType = 1 << iota
+	Lines
+	Words
+)
+
+func Count(file *os.File, flag CountType) FileStatistics {
+
+	file_stats := FileStatistics{
+		Bytes: 0,
+		Lines: 0,
+		Words: 0,
 	}
 
-	return int(bytes.Size())
-
-}
-
-func CountLines(file *os.File) int {
-	file.Seek(0, 0)
 	scanner := bufio.NewScanner(file)
-	count := 0
-
 	for scanner.Scan() {
-		count++
+		if (flag & Bytes) > 0 {
+			file_stats.Bytes += int(len(scanner.Bytes()))
+		}
+		if flag&Lines > 0 {
+			file_stats.Lines++
+		}
+		if flag&Words > 0 {
+			file_stats.Words += len(strings.Fields(scanner.Text()))
+		}
 	}
-
 	if err := scanner.Err(); err != nil {
 		fmt.Println("error:", err)
 	}
-	return int(count)
-}
-
-func CountWords(file *os.File) int {
-	file.Seek(0, 0)
-	scanner := bufio.NewScanner(file)
-	words := 0
-
-	for scanner.Scan() {
-		text := scanner.Text()
-		words += len(strings.Fields(text))
-	}
-
-	if err := scanner.Err(); err != nil {
-		fmt.Println("error:", err)
-	}
-	return int(words)
-}
-
-func CountCharacters(file *os.File) int {
-	file.Seek(0, 0)
-	scanner := bufio.NewScanner(file)
-	characters := 0
-
-	for scanner.Scan() {
-		characters += len(scanner.Text())
-	}
-
-	if err := scanner.Err(); err != nil {
-		fmt.Println("error:", err)
-	}
-
-	return int(characters)
+	return file_stats
 }
