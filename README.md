@@ -21,3 +21,8 @@ Run `./rwc <command> <filename>` to count:
 * `-c` : bytes
 * `-l` : lines
 * `-w` : words
+
+## Features
+
+* a minimal feature set of wc
+* works with pipes (cat test.txt | rwc)
