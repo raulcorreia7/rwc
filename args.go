@@ -12,7 +12,6 @@ func ProcessArguments(args []string) (string, string) {
 	filename := ""
 
 	supported_commands := []string{"-c", "-l", "-w"}
-
 	for _, arg := range args {
 
 		if arg[0] == '-' {

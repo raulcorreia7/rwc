@@ -4,6 +4,7 @@ import "os"
 
 func ProcessCommand(command string, file *os.File) FileStatistics {
 	var file_stats FileStatistics
+
 	switch command {
 	case "-c":
 		{
@@ -22,5 +23,6 @@ func ProcessCommand(command string, file *os.File) FileStatistics {
 			file_stats = Count(file, Bytes|Lines|Words)
 		}
 	}
+
 	return file_stats
 }

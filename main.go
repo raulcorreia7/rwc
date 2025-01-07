@@ -56,6 +56,7 @@ func WriteOutput(command string, file_stats FileStatistics, filename string) {
 func OpenFile(filename string) *os.File {
 	var file *os.File
 
+	// if no file specified, use Stdin
 	if len(filename) == 0 {
 		file = os.Stdin
 	} else {
