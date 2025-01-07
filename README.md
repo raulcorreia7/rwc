@@ -25,4 +25,4 @@ Run `./rwc <command> <filename>` to count:
 ## Features
 
 * a minimal feature set of wc
-* works with pipes (cat test.txt | rwc)
+* works with pipes (`cat test.txt | rwc`)
